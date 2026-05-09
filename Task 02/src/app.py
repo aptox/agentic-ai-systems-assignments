@@ -8,12 +8,12 @@ logging, handoffs, and the /reset command.
 
 import asyncio
 import concurrent.futures
-from pathlib import Path
 
 import gradio as gr
 from agents import Runner
-from bot_agents.router_agent import router_agent as ROOT_AGENT
+
 from bot_agents.classifier_agent import classifier_agent
+from bot_agents.router_agent import router_agent as ROOT_AGENT
 from guardrails.input_guardrails import validate_input
 from guardrails.output_guardrails import validate_output
 from memory.memory_manager import (
@@ -55,6 +55,7 @@ def _status_text() -> str:
 
 def _run_in_thread(coro_fn, *args, **kwargs):
     """Run an async SDK call in a separate thread with its own event loop."""
+
     def _worker():
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
