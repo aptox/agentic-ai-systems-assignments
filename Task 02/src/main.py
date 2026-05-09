@@ -1,11 +1,5 @@
-import sys
-from pathlib import Path
-
-# Ensure the src directory is on the Python path
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-
 from agents import Runner
-from bot_agents.registry import ROOT_AGENT
+from bot_agents.router_agent import router_agent as ROOT_AGENT
 from bot_agents.classifier_agent import classifier_agent
 from guardrails.input_guardrails import validate_input
 from guardrails.output_guardrails import validate_output

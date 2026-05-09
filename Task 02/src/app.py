@@ -6,18 +6,13 @@ Gradio chat interface. Preserves all features: memory, guardrails,
 logging, handoffs, and the /reset command.
 """
 
-import sys
 import asyncio
 import concurrent.futures
 from pathlib import Path
 
-# ── Ensure src/ is on PYTHONPATH ──────────────────────────────────────
-SRC_DIR = Path(__file__).resolve().parent
-sys.path.insert(0, str(SRC_DIR))
-
 import gradio as gr
 from agents import Runner
-from bot_agents.registry import ROOT_AGENT
+from bot_agents.router_agent import router_agent as ROOT_AGENT
 from bot_agents.classifier_agent import classifier_agent
 from guardrails.input_guardrails import validate_input
 from guardrails.output_guardrails import validate_output
