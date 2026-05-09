@@ -1,5 +1,6 @@
 from guardrails.llm_guardrails import classify_input
 
+
 def validate_input(text: str):
     # Rule-based checks (fast)
     if not text or not text.strip():
@@ -21,8 +22,5 @@ def validate_input(text: str):
 
     if label == "POLITICAL":
         raise ValueError("Political content not allowed")
-
-    if label == "IRRELEVANT":
-        raise ValueError("Unsupported request")
 
     return True

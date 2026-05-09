@@ -1,9 +1,9 @@
-from openai import tool
 import requests
-from config import WEATHER_API_KEY
+from agents import function_tool
 
-@tool
-def get_weather(city: str) -> float:
+
+@function_tool
+def get_weather(city: str) -> str:
     """
     Retrieve the current temperature for a given city.
 
@@ -15,7 +15,7 @@ def get_weather(city: str) -> float:
                     Examples: "Haifa", "New York City", "Tokyo", "London".
 
     Returns:
-        float: The current temperature in Celsius at the given city's location.
+        str: The current temperature in Celsius, formatted as "{temp}°C".
 
     Raises:
         ValueError: If the city name cannot be resolved to coordinates.
@@ -23,9 +23,8 @@ def get_weather(city: str) -> float:
         requests.exceptions.RequestException: For underlying network or connection issues.
 
     Example:
-        >>> temp = getWeather("Haifa")
-        >>> print(f"Current temperature in Haifa: {temp}°C")
-        Current temperature in Haifa: 24.1°C
+        >>> get_weather("Haifa")
+        '24.1°C'
     """
     with requests.Session() as session:
         # Step 1: Geocode the city name to lat/lon
@@ -52,4 +51,5 @@ def get_weather(city: str) -> float:
         weather_response.raise_for_status()
         weather_data = weather_response.json()
 
-    return float(weather_data["current"]["temperature_2m"])
+    temp = float(weather_data["current"]["temperature_2m"])
+    return f"{temp}°C"

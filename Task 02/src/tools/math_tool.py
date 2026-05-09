@@ -1,9 +1,11 @@
-from openai import tool
 import ast
 import operator
 
-@tool
-def calculate_math(expression: str) -> float:
+from agents import function_tool
+
+
+@function_tool
+def calculate_math(expression: str) -> str:
     """
     Safely evaluates a mathematical expression string using AST parsing.
 
@@ -14,25 +16,25 @@ def calculate_math(expression: str) -> float:
         expression (str): A mathematical expression, e.g. "50 * 3 / 2".
 
     Returns:
-        float: The numeric result of the expression.
+        str: The numeric result of the expression, returned as a string.
 
     Raises:
-        TypeError:       If expression is not a string.
-        ValueError:      If expression is empty or contains unsupported syntax.
+        TypeError:       If expression is not a string or contains non-numeric constants.
+        ValueError:      If expression is empty.
         ZeroDivisionError: If the expression divides by zero.
         SyntaxError:     If the expression cannot be parsed.
 
     Examples:
-        >>> calculateMath("50 * 3 / 2")
-        75.0
-        >>> calculateMath("10 + 2 ** 3")
-        18.0
-        >>> calculateMath("-(4 + 5) * 2")
-        -18.0
-        >>> calculateMath("100 % 3")
-        1.0
-        >>> calculateMath("10 // 3")
-        3.0
+        >>> calculate_math("50 * 3 / 2")
+        '75.0'
+        >>> calculate_math("10 + 2 ** 3")
+        '18.0'
+        >>> calculate_math("-(4 + 5) * 2")
+        '-18.0'
+        >>> calculate_math("100 % 3")
+        '1.0'
+        >>> calculate_math("10 // 3")
+        '3.0'
     """
 
     if not isinstance(expression, str):
@@ -44,15 +46,15 @@ def calculate_math(expression: str) -> float:
         raise ValueError("Expression must not be empty.")
 
     allowed_operators = {
-        ast.Add:      operator.add,
-        ast.Sub:      operator.sub,
-        ast.Mult:     operator.mul,
-        ast.Div:      operator.truediv,
+        ast.Add: operator.add,
+        ast.Sub: operator.sub,
+        ast.Mult: operator.mul,
+        ast.Div: operator.truediv,
         ast.FloorDiv: operator.floordiv,
-        ast.Pow:      operator.pow,
-        ast.Mod:      operator.mod,
-        ast.USub:     operator.neg,
-        ast.UAdd:     operator.pos,
+        ast.Pow: operator.pow,
+        ast.Mod: operator.mod,
+        ast.USub: operator.neg,
+        ast.UAdd: operator.pos,
     }
 
     def _evaluate(node: ast.AST) -> float:
@@ -71,7 +73,7 @@ def calculate_math(expression: str) -> float:
                 raise TypeError(
                     f"Unsupported binary operator: {op_type.__name__}"
                 )
-            left  = _evaluate(node.left)
+            left = _evaluate(node.left)
             right = _evaluate(node.right)
             # Explicit zero-division guard
             if op_type is ast.Div and right == 0:
@@ -98,4 +100,4 @@ def calculate_math(expression: str) -> float:
             f"Invalid mathematical expression: '{expression}'. Detail: {e}"
         ) from e
 
-    return _evaluate(tree.body)
+    return str(_evaluate(tree.body))

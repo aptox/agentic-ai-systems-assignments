@@ -1,0 +1,165 @@
+{
+  "getWeather": [
+    {
+      "input": "What's the weather in Paris?",
+      "output": {
+        "intent": "getWeather",
+        "parameters": {
+          "city": "Paris"
+        },
+        "confidence": 0.95
+      }
+    },
+    {
+      "input": "I am flying to London and need to know if I should take a coat",
+      "output": {
+        "intent": "getWeather",
+        "parameters": {
+          "city": "London"
+        },
+        "confidence": 0.93
+      }
+    },
+    {
+      "input": "Is it cold in Tokyo right now?",
+      "output": {
+        "intent": "getWeather",
+        "parameters": {
+          "city": "Tokyo"
+        },
+        "confidence": 0.92
+      }
+    },
+    {
+      "input": "Will I need an umbrella in Berlin this weekend?",
+      "output": {
+        "intent": "getWeather",
+        "parameters": {
+          "city": "Berlin"
+        },
+        "confidence": 0.90
+      }
+    },
+    {
+      "input": "Tell me the temperature in New York City",
+      "output": {
+        "intent": "getWeather",
+        "parameters": {
+          "city": "New York City"
+        },
+        "confidence": 0.96
+      }
+    }
+  ],
+  "calculateMath": [
+    {
+      "input": "5 + 7 * 2",
+      "output": {
+        "intent": "calculateMath",
+        "parameters": {
+          "expression": "5+7*2"
+        },
+        "confidence": 0.98
+      }
+    },
+    {
+      "input": "Yossi has 5 apples, he ate 2 and bought 10 more. How many does he have?",
+      "output": {
+        "intent": "calculateMath",
+        "parameters": {
+          "expression": "5-2+10"
+        },
+        "confidence": 0.90
+      }
+    },
+    {
+      "input": "What is 15% of 200?",
+      "output": {
+        "intent": "calculateMath",
+        "parameters": {
+          "expression": "200*0.15"
+        },
+        "confidence": 0.91
+      }
+    },
+    {
+      "input": "Calculate (15 * 3 + 20) / 5 + 100",
+      "output": {
+        "intent": "calculateMath",
+        "parameters": {
+          "expression": "(15*3+20)/5+100"
+        },
+        "confidence": 0.97
+      }
+    }
+  ],
+  "getExchangeRate": [
+    {
+      "input": "Convert USD to EUR",
+      "output": {
+        "intent": "getExchangeRate",
+        "parameters": {
+          "from": "USD",
+          "to": "EUR"
+        },
+        "confidence": 0.90
+      }
+    },
+    {
+      "input": "How many shekels is 100 dollars?",
+      "output": {
+        "intent": "getExchangeRate",
+        "parameters": {
+          "from": "USD",
+          "to": "ILS"
+        },
+        "confidence": 0.88
+      }
+    },
+    {
+      "input": "What's the exchange rate from GBP to JPY?",
+      "output": {
+        "intent": "getExchangeRate",
+        "parameters": {
+          "from": "GBP",
+          "to": "JPY"
+        },
+        "confidence": 0.92
+      }
+    }
+  ],
+  "generalChat": [
+    {
+      "input": "Tell me a joke",
+      "output": {
+        "intent": "generalChat",
+        "parameters": {},
+        "confidence": 0.85
+      }
+    },
+    {
+      "input": "Explain data pipelines like I'm 5",
+      "output": {
+        "intent": "generalChat",
+        "parameters": {},
+        "confidence": 0.82
+      }
+    },
+    {
+      "input": "Hello, how are you?",
+      "output": {
+        "intent": "generalChat",
+        "parameters": {},
+        "confidence": 0.88
+      }
+    },
+    {
+      "input": "What is machine learning?",
+      "output": {
+        "intent": "generalChat",
+        "parameters": {},
+        "confidence": 0.80
+      }
+    }
+  ]
+}

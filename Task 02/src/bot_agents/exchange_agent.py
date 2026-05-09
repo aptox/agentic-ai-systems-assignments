@@ -1,4 +1,5 @@
-from openai import Agent
+from agents import Agent
+
 from tools.exchange_tool import get_exchange_rate
 
 exchange_agent = Agent(

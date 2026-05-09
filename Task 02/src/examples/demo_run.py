@@ -1,5 +1,11 @@
-from openai import OpenAI
-from agents.registry import ROOT_AGENT
+import sys
+from pathlib import Path
+
+# Ensure the src directory is on the Python path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from agents import Runner
+from bot_agents.registry import ROOT_AGENT
 from memory.memory_manager import (
     load_memory,
     save_memory,
@@ -9,9 +15,6 @@ from memory.memory_manager import (
 from guardrails.input_guardrails import validate_input
 from guardrails.output_guardrails import validate_output
 from utils.logger import Logger
-
-client = OpenAI()
-
 
 TEST_CASES = [
     # 1. Weather routing (handoff #1)
@@ -56,7 +59,7 @@ def run_demo():
 
     for i, user_input in enumerate(TEST_CASES):
 
-        print(f"\n🧪 TEST {i+1}: {user_input}")
+        print(f"\n🧪 TEST {i + 1}: {user_input}")
 
         logger.log("INPUT_RECEIVED", {"input": user_input})
 
@@ -93,12 +96,9 @@ def run_demo():
         })
 
         # AGENT EXECUTION (HANDOFFS happen internally)
-        response = client.responses.run(
-            agent=ROOT_AGENT,
-            input=messages
-        )
+        result = Runner.run_sync(ROOT_AGENT, input=messages)
 
-        output = response.output_text
+        output = result.final_output
 
         # OUTPUT GUARDRAIL
         try:

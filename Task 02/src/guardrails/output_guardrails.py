@@ -1,5 +1,6 @@
 from guardrails.llm_guardrails import validate_output_llm
 
+
 def validate_output(output, route_json=None):
     # Rule checks
     if output is None:

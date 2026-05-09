@@ -1,5 +1,12 @@
-from openai import OpenAI
-from agents.registry import ROOT_AGENT
+import sys
+from pathlib import Path
+
+# Ensure the src directory is on the Python path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from agents import Runner
+from bot_agents.registry import ROOT_AGENT
+from bot_agents.classifier_agent import classifier_agent
 from guardrails.input_guardrails import validate_input
 from guardrails.output_guardrails import validate_output
 from memory.memory_manager import (
@@ -10,8 +17,6 @@ from memory.memory_manager import (
 )
 from utils.logger import Logger
 import atexit
-
-client = OpenAI()
 
 
 def main():
@@ -48,7 +53,7 @@ def main():
         # RESET
         if user_input == "/reset":
             reset_memory()
-            history = []
+            history.clear()
 
             logger.log("MEMORY_RESET", {
                 "file_deleted": True
@@ -65,6 +70,21 @@ def main():
             print("Blocked:", e)
             continue
 
+        # STRUCTURED CLASSIFICATION (Part B)
+        try:
+            classify_result = Runner.run_sync(classifier_agent, input=user_input)
+            classification = classify_result.final_output
+            logger.log("CLASSIFICATION", {
+                "intent": classification.intent,
+                "parameters": dict(classification.parameters),
+                "confidence": classification.confidence,
+            })
+            print(f"  [Classification] intent={classification.intent}, "
+                  f"params={dict(classification.parameters)}, "
+                  f"confidence={classification.confidence}")
+        except Exception as e:
+            logger.log("CLASSIFICATION_ERROR", {"error": str(e)})
+
         # CONTEXT INJECTION
         messages = history_to_messages(history)
         messages.append({"role": "user", "content": user_input})
@@ -74,12 +94,9 @@ def main():
             "history_used": len(history)
         })
 
-        response = client.responses.run(
-            agent=ROOT_AGENT,
-            input=messages
-        )
+        result = Runner.run_sync(ROOT_AGENT, input=messages)
 
-        output = response.output_text
+        output = result.final_output
 
         # OUTPUT GUARDRAILS
         try:

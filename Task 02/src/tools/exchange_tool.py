@@ -1,10 +1,12 @@
-from openai import tool
 import requests
+from agents import function_tool
 
-@tool
-def get_exchange_rate(frm: str, to: str) -> float:
+
+@function_tool
+def get_exchange_rate(frm: str, to: str) -> str:
     """
     Get the current exchange rate from one currency to another.
+
     Uses the free ExchangeRate-API (no API key required) to fetch
     real-time exchange rates.
 
@@ -13,8 +15,8 @@ def get_exchange_rate(frm: str, to: str) -> float:
         to  (str): The target currency code (e.g. "USD", "EUR", "ILS").
 
     Returns:
-        float: The exchange rate representing how many units of `to`
-               equal one unit of `frm`.
+        str: The exchange rate as a string, representing how many units
+             of `to` equal one unit of `frm`.
 
     Raises:
         ValueError: If either currency code is not supported by the API.
@@ -22,9 +24,8 @@ def get_exchange_rate(frm: str, to: str) -> float:
         requests.exceptions.RequestException: For network/connection issues.
 
     Example:
-        >>> rate = get_exchange_rate("USD", "ILS")
-        >>> print(f"1 USD = {rate} ILS")
-        1 USD = 3.62 ILS
+        >>> get_exchange_rate("USD", "ILS")
+        '3.62'
     """
     frm = frm.upper().strip()
     to = to.upper().strip()
@@ -43,4 +44,4 @@ def get_exchange_rate(frm: str, to: str) -> float:
     if to not in rates:
         raise ValueError(f"Unsupported target currency: '{to}'")
 
-    return float(rates[to])
+    return str(float(rates[to]))

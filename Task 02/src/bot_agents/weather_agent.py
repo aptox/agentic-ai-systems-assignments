@@ -1,4 +1,5 @@
-from openai import Agent
+from agents import Agent
+
 from tools.weather_tool import get_weather
 
 weather_agent = Agent(
