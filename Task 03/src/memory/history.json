@@ -1,0 +1,6 @@
+[
+  {
+    "user": "The pizza was absolutely amazing, best crust I have ever had. However the delivery was 45 minutes late and everything arrived cold.",
+    "bot": "### \ud83d\udccb Review Analysis\n\n**Summary:** Amazing pizza but the delivery was late and the food arrived cold.\n**Overall Sentiment:** \ud83d\udfe0 Mixed\n**Score:** 5/10\n\n**Aspects:**\n1. **Food** (\ud83d\udfe2 Positive): *The pizza was absolutely amazing, best crust I have ever had*\n2. **Delivery** (\ud83d\udd34 Negative): *the delivery was 45 minutes late and everything arrived cold*"
+  }
+]
